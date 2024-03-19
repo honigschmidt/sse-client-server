@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<head>
+    <title>SSE-client</title>
+</head>
+<body>
+    <h1>SSE-client</h1>
+    <div id="messagebox" style="width: 300px; height: 100px; border: 1px solid gray; margin-bottom: 5px; overflow: auto;"></div>
+    <button id="btn_start">Start stream</button>
+    <button id="btn_stop">Stop stream</button>
+    <script>
+        function main() {
+            var source = null;
+            const messageBox = document.querySelector("#messagebox");
+            document.querySelector("#btn_start").addEventListener("click", () => {
+                startStream();
+            })
+            document.querySelector("#btn_stop").addEventListener("click", () => {
+                stopStream();
+            })
+
+            function startStream() {
+                source = new EventSource("/events");
+                source.addEventListener("message", (evt) => {
+                    console.log(evt.data);
+                    messageBox.innerHTML += evt.data + "<br>";
+                    messageBox.scrollTop = messageBox.scrollHeight;
+                })
+            }
+
+            function stopStream() {
+                source.close();
+            }
+        }
+        document.addEventListener("DOMContentLoaded", main);
+    </script>
+</body>
+</html>
