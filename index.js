@@ -1,5 +1,7 @@
 var http = require("http");
 var fs = require("fs");
+var port = 8080;
+var interval = 1000;
 
 http.createServer((req, res) => {
     if (req.url == "/events") {
@@ -15,7 +17,7 @@ http.createServer((req, res) => {
             res.end();
         })
     }
-}).listen(8080);
+}).listen(port);
 
 function sendEvent(res) {
     res.writeHead(200, {
@@ -29,5 +31,5 @@ function sendEvent(res) {
         const data = Math.random();
         const message = `id:${id}\ndata: ${data}\n\n`;
         res.write(message);
-      }, 1000);
+      }, interval);
 }
